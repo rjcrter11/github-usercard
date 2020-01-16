@@ -2,16 +2,16 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
-axios
-  .get("https://api.github.com/users/rjcrter11")
-  .then((response) => {
-    Object.keys(response).forEach((item) => {
-      cards.append(gitCards(response[item]));
-    });
-  })
-  .catch((error) => {
-    console.log("not returned", error);
-  });
+// axios
+//   .get("https://api.github.com/users/rjcrter11")
+//   .then((response) => {
+//     Object.keys(response).forEach((item) => {
+//       cards.append(gitCards(response[item]));
+//     });
+//   })
+//   .catch((error) => {
+//     console.log("not returned", error);
+//   });
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -35,6 +35,7 @@ axios
 */
 
 const followersArray = [
+  "rjcrter11",
   "tetondan",
   "dustinmyers",
   "justsml",
@@ -84,17 +85,29 @@ function gitCards(arg) {
     anchor = document.createElement("a"),
     followers = document.createElement("p"),
     following = document.createElement("p"),
-    bio = document.createElement("p");
+    bio = document.createElement("p"),
+    graph = document.createElement("div");
+
+  card.style.cursor = "pointer";
 
   card.append(img);
   card.append(cardInfo);
   cardInfo.append(name, userName, location, profile, followers, following, bio);
   profile.append(anchor);
+  card.append(graph);
 
   card.classList.add("card");
   cardInfo.classList.add("card-info");
   name.classList.add("name");
   userName.classList.add("username");
+
+  graph.classList.add("calendar");
+  graph.classList.add("toggle");
+
+  card.addEventListener("click", (event) => {
+    graph.classList.toggle("toggle");
+    console.log("clicked", event);
+  });
 
   anchor.href = arg.html_url;
   img.src = arg.avatar_url;
@@ -106,6 +119,7 @@ function gitCards(arg) {
   followers.textContent = `Followers: ${arg.followers}`;
   following.textContent = `Following: ${arg.following}`;
   bio.textContent = `Bio: ${arg.bio}`;
+  new GitHubCalendar(graph, arg.login);
 
   return card;
 }

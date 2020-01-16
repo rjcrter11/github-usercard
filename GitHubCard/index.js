@@ -87,6 +87,7 @@ function gitCards(arg) {
     following = document.createElement("p"),
     bio = document.createElement("p"),
     graph = document.createElement("div");
+  button = document.createElement("button");
 
   card.style.cursor = "pointer";
 
@@ -95,6 +96,16 @@ function gitCards(arg) {
   cardInfo.append(name, userName, location, profile, followers, following, bio);
   profile.append(anchor);
   card.append(graph);
+  card.append(button);
+
+  button.style.width = "20%";
+  button.textContent = "Git Calendar";
+  button.style.fontSize = "20px";
+  button.style.backgroundColor = "dodgerblue";
+  button.style.color = "white";
+  button.style.marginTop = "10px";
+  button.style.justifySelf = "center";
+  button.style.cursor = "pointer";
 
   card.classList.add("card");
   cardInfo.classList.add("card-info");
@@ -104,7 +115,7 @@ function gitCards(arg) {
   graph.classList.add("calendar");
   graph.classList.add("toggle");
 
-  card.addEventListener("click", (event) => {
+  button.addEventListener("click", (event) => {
     graph.classList.toggle("toggle");
     console.log("clicked", event);
   });

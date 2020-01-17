@@ -2,16 +2,15 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
-// axios
-//   .get("https://api.github.com/users/rjcrter11")
-//   .then((response) => {
-//     Object.keys(response).forEach((item) => {
-//       cards.append(gitCards(response[item]));
-//     });
-//   })
-//   .catch((error) => {
-//     console.log("not returned", error);
-//   });
+const cards = document.querySelector(".cards");
+axios
+  .get("https://api.github.com/users/rjcrter11")
+  .then((response) => {
+    cards.append(gitCards(response.data));
+  })
+  .catch((error) => {
+    console.log("not returned", error);
+  });
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -35,14 +34,13 @@
 */
 
 const followersArray = [
-  "rjcrter11",
   "tetondan",
   "dustinmyers",
   "justsml",
   "luishrd",
   "bigknell"
 ];
-const cards = document.querySelector(".cards");
+
 followersArray.forEach((followed) => {
   axios
     .get(`https://api.github.com/users/${followed}`)
@@ -75,6 +73,8 @@ followersArray.forEach((followed) => {
 */
 
 function gitCards(arg) {
+  // Create Elements
+
   const card = document.createElement("div"),
     img = document.createElement("img"),
     cardInfo = document.createElement("div"),
@@ -86,10 +86,10 @@ function gitCards(arg) {
     followers = document.createElement("p"),
     following = document.createElement("p"),
     bio = document.createElement("p"),
-    graph = document.createElement("div");
-  button = document.createElement("button");
+    graph = document.createElement("div"),
+    button = document.createElement("button");
 
-  card.style.cursor = "pointer";
+  // Append Elements
 
   card.append(img);
   card.append(cardInfo);
@@ -98,14 +98,7 @@ function gitCards(arg) {
   card.append(graph);
   card.append(button);
 
-  button.style.width = "20%";
-  button.textContent = "Git Calendar";
-  button.style.fontSize = "20px";
-  button.style.backgroundColor = "dodgerblue";
-  button.style.color = "white";
-  button.style.marginTop = "10px";
-  button.style.justifySelf = "center";
-  button.style.cursor = "pointer";
+  // Add Classes
 
   card.classList.add("card");
   cardInfo.classList.add("card-info");
@@ -115,10 +108,7 @@ function gitCards(arg) {
   graph.classList.add("calendar");
   graph.classList.add("toggle");
 
-  button.addEventListener("click", (event) => {
-    graph.classList.toggle("toggle");
-    console.log("clicked", event);
-  });
+  // Add Properties
 
   anchor.href = arg.html_url;
   img.src = arg.avatar_url;
@@ -131,6 +121,24 @@ function gitCards(arg) {
   following.textContent = `Following: ${arg.following}`;
   bio.textContent = `Bio: ${arg.bio}`;
   new GitHubCalendar(graph, arg.login);
+
+  //Style Elements
+
+  button.style.width = "20%";
+  button.textContent = "Git Calendar";
+  button.style.fontSize = "20px";
+  button.style.backgroundColor = "dodgerblue";
+  button.style.color = "white";
+  button.style.cursor = "pointer";
+  button.style.marginTop = "20px";
+  card.style.cursor = "pointer";
+
+  // Calendar Toggle Event
+
+  button.addEventListener("click", (event) => {
+    graph.classList.toggle("toggle");
+    console.log("clicked", event);
+  });
 
   return card;
 }
